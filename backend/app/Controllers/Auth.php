@@ -6,41 +6,35 @@ use App\Models\UserModel;
 
 class Auth extends BaseController
 {
-    public function index()
+    public function login()
     {
-        // If already logged in, go to dashboard
-        if (session()->get('isLoggedIn')) {
-            return redirect()->to('/dashboard');
+        $username = $this->request->getJSON()->username ?? '';
+        $password = $this->request->getJSON()->password ?? '';
+
+        if (empty($username) || empty($password)) {
+            return $this->response->setStatusCode(400)->setJSON([
+                'status'  => 'error',
+                'message' => 'All fields are required.'
+            ]);
         }
-        return view('auth/login');
-    }
 
-public function login()
-{
-    $username = $this->request->getPost('username');
-    $password = $this->request->getPost('password');
+        $userModel = new UserModel();
+        $user = $userModel->getUserByUsername($username);
 
-    if (empty($username) || empty($password)) {
-        return redirect()->back()->with('error', 'All fields are required.');
-    }
+        if ($user && password_verify($password, $user['password'])) {
+            // Simple token (we'll improve this later)
+            $token = bin2hex(random_bytes(32));
 
-    $userModel = new UserModel();
-    $user = $userModel->getUserByUsername($username);
+            return $this->response->setJSON([
+                'status'   => 'success',
+                'token'    => $token,
+                'username' => $user['username']
+            ]);
+        }
 
-    if ($user && password_verify($password, $user['password'])) {
-        session()->set([
-            'isLoggedIn' => true,
-            'userId'     => $user['id'],
-            'username'   => $user['username'],
+        return $this->response->setStatusCode(401)->setJSON([
+            'status'  => 'error',
+            'message' => 'Invalid username or password.'
         ]);
-        return redirect()->to('/dashboard');
-    }
-
-    return redirect()->back()->with('error', 'Invalid username or password.');
-}
-    public function logout()
-    {
-        session()->destroy();
-        return redirect()->to('/login');
     }
 }

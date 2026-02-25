@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+}
+```
+
+---
+
+## Step 2 — Set up the folder structure
+
+Inside `src/` create these folders:
+```
+src/
+├── components/    → reusable components (navbar, sidebar)
+├── pages/         → each page of the app
+│   ├── auth/      → login page
+│   ├── dashboard/ → dashboard page
+│   ├── categories/
+│   ├── suppliers/
+│   └── products/
+├── services/      → API calls to CI4
+└── utils/         → helper functions

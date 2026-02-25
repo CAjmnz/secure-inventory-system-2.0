@@ -6,10 +6,12 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-//login routes
+// Handle preflight OPTIONS requests
+$routes->options('api/auth/login', function() {
+    return service('response')->setStatusCode(200);
+});
 
-$routes->get('/',        'Auth::index');
-$routes->get('/login',   'Auth::index');
-$routes->post('/login',  'Auth::login');
-$routes->get('/logout',  'Auth::logout');
-$routes->get('/dashboard', 'Dashboard::index');
+// API Routes
+$routes->group('api', function($routes) {
+    $routes->post('auth/login', 'Auth::login');
+});

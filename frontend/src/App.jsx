@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Login from './pages/auth/Login'
 import Dashboard from './pages/dashboard/Dashboard'
 import Categories from './pages/categories/Categories'
+import Suppliers from './pages/suppliers/Suppliers'
+
 
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token')
@@ -19,6 +21,9 @@ function App() {
         } />
         <Route path="/categories" element={
           <ProtectedRoute><Categories /></ProtectedRoute>
+        } />
+        <Route path="/suppliers" element={
+          <ProtectedRoute><Suppliers /></ProtectedRoute>
         } />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>

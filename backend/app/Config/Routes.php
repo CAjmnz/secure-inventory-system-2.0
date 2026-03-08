@@ -12,6 +12,9 @@ $routes->options('api/categories',        function() { return service('response'
 $routes->options('api/categories/(:num)', function() { return service('response')->setStatusCode(200); });
 $routes->options('api/suppliers',         function() { return service('response')->setStatusCode(200); });
 $routes->options('api/suppliers/(:num)',  function() { return service('response')->setStatusCode(200); });
+$routes->options('api/products',          function() { return service('response')->setStatusCode(200); });
+$routes->options('api/products/(:num)',   function() { return service('response')->setStatusCode(200); });
+$routes->options('api/products/formdata', function() { return service('response')->setStatusCode(200); });
 
 // API Routes
 $routes->group('api', function($routes) {
@@ -31,4 +34,12 @@ $routes->group('api', function($routes) {
     $routes->post('suppliers',          'Suppliers::create');
     $routes->put('suppliers/(:num)',    'Suppliers::update/$1');
     $routes->delete('suppliers/(:num)', 'Suppliers::delete/$1');
+
+    // Products
+    $routes->get('products/formdata',    'Products::getFormData');
+    $routes->get('products',             'Products::index');
+    $routes->get('products/(:num)',      'Products::show/$1');
+    $routes->post('products',            'Products::create');
+    $routes->put('products/(:num)',      'Products::update/$1');
+    $routes->delete('products/(:num)',   'Products::delete/$1');
 });

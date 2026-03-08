@@ -7,14 +7,17 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 // Handle preflight OPTIONS requests
-$routes->options('api/auth/login',        function() { return service('response')->setStatusCode(200); });
-$routes->options('api/categories',        function() { return service('response')->setStatusCode(200); });
-$routes->options('api/categories/(:num)', function() { return service('response')->setStatusCode(200); });
-$routes->options('api/suppliers',         function() { return service('response')->setStatusCode(200); });
-$routes->options('api/suppliers/(:num)',  function() { return service('response')->setStatusCode(200); });
-$routes->options('api/products',          function() { return service('response')->setStatusCode(200); });
-$routes->options('api/products/(:num)',   function() { return service('response')->setStatusCode(200); });
-$routes->options('api/products/formdata', function() { return service('response')->setStatusCode(200); });
+$routes->options('api/auth/login',               function() { return service('response')->setStatusCode(200); });
+$routes->options('api/categories',               function() { return service('response')->setStatusCode(200); });
+$routes->options('api/categories/(:num)',         function() { return service('response')->setStatusCode(200); });
+$routes->options('api/suppliers',                function() { return service('response')->setStatusCode(200); });
+$routes->options('api/suppliers/(:num)',          function() { return service('response')->setStatusCode(200); });
+$routes->options('api/products',                 function() { return service('response')->setStatusCode(200); });
+$routes->options('api/products/(:num)',           function() { return service('response')->setStatusCode(200); });
+$routes->options('api/products/formdata',         function() { return service('response')->setStatusCode(200); });
+$routes->options('api/reports/products',         function() { return service('response')->setStatusCode(200); });
+$routes->options('api/reports/lowstock',         function() { return service('response')->setStatusCode(200); });
+$routes->options('api/reports/inventoryvalue',   function() { return service('response')->setStatusCode(200); });
 
 // API Routes
 $routes->group('api', function($routes) {
@@ -42,4 +45,9 @@ $routes->group('api', function($routes) {
     $routes->post('products',            'Products::create');
     $routes->put('products/(:num)',      'Products::update/$1');
     $routes->delete('products/(:num)',   'Products::delete/$1');
+
+    // Reports
+    $routes->get('reports/products',       'Products::report');
+    $routes->get('reports/lowstock',       'Products::lowStock');
+    $routes->get('reports/inventoryvalue', 'Products::inventoryValue');
 });

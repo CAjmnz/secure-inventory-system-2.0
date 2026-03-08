@@ -118,4 +118,48 @@ class Products extends BaseController
             'suppliers' => $supplierModel->findAll()    
         ]);
     }
+    // GET products report
+    public function report()
+    {
+        $products = $this->model->getProductsWithDetails();
+        
+        $totalProducts = count($products);
+        $totalQuantity = array_sum(array_column($products, 'quantity'));
+        $totalValue    = array_sum(array_map(fn($p) => $p['quantity'] * $p['price'], $products));
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'data'   => [
+                'products'       => $products,
+                'total_products' => $totalProducts,
+                'total_quantity' => $totalQuantity,
+                'total_value'    => number_format($totalValue, 2)
+            ]
+        ]);
+    }
+
+    // GET low stock report
+    public function lowStock()
+    {
+        $products = $this->model->getLowStockProducts();
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'data'   => [
+                'products' => $products,
+                'count'    => count($products)
+            ]
+        ]);
+    }
+
+    // GET inventory value by category
+    public function inventoryValue()
+    {
+        $data = $this->model->getInventoryValueByCategory();
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'data'   => $data
+        ]);
+    }
 }            

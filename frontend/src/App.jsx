@@ -4,6 +4,7 @@ import Login from './pages/auth/Login'
 import Dashboard from './pages/dashboard/Dashboard'
 import Categories from './pages/categories/Categories'
 import Suppliers from './pages/suppliers/Suppliers'
+import Products from './pages/products/Products'
 
 
 const ProtectedRoute = ({ children }) => {
@@ -24,6 +25,9 @@ function App() {
         } />
         <Route path="/suppliers" element={
           <ProtectedRoute><Suppliers /></ProtectedRoute>
+        } />
+        <Route path="/products" element={
+          <ProtectedRoute><Products /></ProtectedRoute>
         } />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
